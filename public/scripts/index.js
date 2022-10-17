@@ -38,7 +38,10 @@ const formsAndHandlers = {
   'view-freets-by-author': viewFreetsByAuthor,
   'create-freet': createFreet,
   'edit-freet': editFreet,
-  'delete-freet': deleteFreet
+  'delete-freet': deleteFreet,
+  'create-freet-type': createFreetType,
+  'view-all-freet-types': viewAllFreetTypes,
+  'delete-freet-type': deleteFreetType
 };
 
 // Attach handlers to forms

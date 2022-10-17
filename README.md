@@ -313,3 +313,151 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+
+#### `POST /api/freetTypes` - Create a new freetType
+
+**Body**
+
+- `freetType` _{string}_ - The label/freet type
+
+**Returns**
+
+- A success message
+- A object with the created freet Type
+
+**Throws**
+
+- `400` if the freetType is in wrong format
+- `409` if the freetType is already in use
+
+#### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type
+
+**Body**
+
+- `percentage` _{number}_ - The percent of content type
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `400` if the percentage is out of range
+- `406` if percentage is invalid when considering all content types
+
+#### `Put /api/feedControl/:contentType?` - Update feed control preference for existing content type
+
+**Body**
+
+- `percentage` _{number}_ - The percent of content type
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `400` if the percentage is out of range
+- `406` if percentage is invalid when considering all content types
+
+
+
+#### `GET /api/feedControl` - Get all the freets in correct distribution
+
+**Returns**
+
+- An array of all freets sorted in descending order by date modified in distribution chosen by user
+
+
+
+#### `POST /api/fullStory` - Create content with full story optionality
+
+**Body**
+
+- `headline` _{string}_ - The headline content
+- `fullStory` _{string}_ - The full story content
+
+**Returns**
+
+- A success message
+- Object with created content
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` If the headline content is empty or a stream of empty spaces or exceeds character limit
+- `400` If the full story is a stream of empty spaces
+- `413` If the headline is more than 280 characters long
+- `413` If the full story is more than 1000 words long
+
+
+#### `POST /api/freetLike/:freetId?` - Likes a Freet
+
+
+**Returns**
+
+- A success message
+- An object with the updated like count
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `412` if the user has already liked the freet
+
+
+#### `DELETE /api/freetLike/:freetId?` - Remove like of a Freet
+
+**Returns**
+
+- A success message
+- An object with the updated like count
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `412` if the user has not already liked the freet
+
+
+
+#### `GET /api/profile/followers?user=USERNAME` - Get all the followers of a user
+
+**Returns**
+
+- An array of all followers for a user
+
+
+#### `GET /api/profile/following?user=USERNAME` - Get all the users the user if following
+
+**Returns**
+
+- An array of all accounts user is following
+
+
+#### `POST /api/profile/:username?` - Follow user
+
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the username is invalid
+- `412` if the user already follows user
+
+#### `DELETE /api/profile/:username?` - Unfollow user
+
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the username is invalid
+- `412` if the user doesn't already follows user
