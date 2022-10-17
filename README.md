@@ -315,6 +315,8 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 
 
+---
+
 #### `POST /api/freetTypes` - Create a new freetType
 
 **Body**
