@@ -316,6 +316,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 
 ---
+## My New API routes
 
 #### `POST /api/freetTypes` - Create a new freetType
 
