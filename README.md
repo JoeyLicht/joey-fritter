@@ -314,15 +314,13 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
+## My New API routes for implemented concept:
 
----
-## My New API routes
-
-#### `POST /api/freetTypes` - Create a new freetType
+#### `POST /api/freetTypes/:contentId?` - Create a new freetType
 
 **Body**
 
-- `freetType` _{string}_ - The label/freet type
+- `freetTypeLabel` _{string}_ - The label/freet type
 
 **Returns**
 
@@ -331,9 +329,41 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
-- `400` if the freetType is in wrong format
-- `409` if the freetType is already in use
+- `400` if the freetTypeLabel is in wrong format
+- `400` if contentId is in wrong format
+- `403` if user is not logged in or is not the author of the content
+- `409` if the freetTypeLabel has already been applied to contentID
 
+#### `GET /api/freetTypes` - Get all the freetTypes
+
+**Returns**
+
+- An array of all the freet types sorted in alphabetical order
+
+#### `GET /api/freetTypes?freetType=freetTypeLabel - Get freet types by freet type labels
+
+**Returns**
+
+- An array of freets types with freet type label `freetTypeLabel`
+
+**Throws**
+
+- `400` if `freetTypeLabel` is not given
+- `404` if `freetTypeLabel` is not a recognized label of any freet type
+
+#### `DELETE /api/freetTypes/:contentId?` - Delete an existing freet type
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `403` if the user is not the author of the freet type
+- `404` If freet type with contentId exists
+
+## My New API routes for to be implemented concepts:
 #### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type
 
 **Body**

@@ -1,75 +1,101 @@
-import type {Request, Response} from 'express';
+import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
 import FreetCollection from '../freet/collection';
 import UserCollection from '../user/collection';
 import FreetTypeCollection from './collection';
 import * as userValidator from '../user/middleware';
+import * as freetValidator from '../freet/middleware';
 import * as freetTypeValidator from '../freetType/middleware';
 import * as util from './util';
 
 const router = express.Router();
 
 /**
+ * Get all the freet types
+ *
+ * @name GET /api/freetTypes
+ *
+ * @return {FreetTypeResponse[]} - An array of all the freet types sorted in alphabetical order
+ */
+/**
+ * Get freet types by freet type label.
+ *
+ * @name GET /api/freetTypes?freetType=label
+ *
+ * @return {FreetTypeResponse[]} - An array of freets types with freet type label, label
+ * @throws {400} - If freetTypeLabel is not given
+ * @throws {404} - If no freet type has given freetTypeLabel
+ *
+ */
+router.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (req.query.freetType !== undefined) {
+      next();
+      return;
+    }
+
+    const allFreetTypes = await FreetTypeCollection.findAll();
+    const response = allFreetTypes.map(util.constructFreetTypeResponse);
+    res.status(200).json(response);
+  },
+  [
+    freetTypeValidator.isFreetTypeExists
+  ],
+  async (req: Request, res: Response) => {
+    const filteredFreetTypes = await FreetTypeCollection.findAllByFreetType(req.query.freetType as string);
+    const response = filteredFreetTypes.map(util.constructFreetTypeResponse);
+    res.status(200).json(response);
+  }
+);
+
+/**
  * Create a Freet Type
  *
- * @name POST /api/freetTypes
+ * @name POST /api/freetTypes/:contentId
  *
  * @param {string} freetTypeLabel - The Freet Type (label)
+ * @param {string} contentId - The content id
  * @return {FreetTypeResponse} - The created Freet Type
- * @throws {409} - If Freet Type is already taken
+ * @throws {409} - If Freet Type has already been applied to contentID
  * @throws {400} - If Freet Type is not in correct format
+ * @throws {400} - If contentId is not in correct format
+ * @throws {403} - If the user is not logged in or is not the author of
+ *                 the content
  *
  */
 router.post(
-  '/',
+  '/:freetId?',
   [
-    freetTypeValidator.isValidFreetTypeLabel
+    userValidator.isUserLoggedIn,
+    freetTypeValidator.isValidFreetTypeLabel,
+    freetValidator.isFreetExists,
+    freetValidator.isValidFreetModifier,
+    freetTypeValidator.isUniqueCombination
   ],
   async (req: Request, res: Response) => {
-    const freetType = await FreetTypeCollection.addOne(req.body.freetTypeLabel);
-    // Todo make a function (either in collection or middleware that tells you if freet type already exists)
-    // req.session.userId = user._id.toString();
+    const freetType = await FreetTypeCollection.addOne(req.params.freetId, req.body.freetTypeLabel);
     res.status(201).json({
-      message: `Your successfully created a freet type: ${freetType.freetTypeLabel}`,
+      message: `Your successfully labeled a freet with freet type: ${freetType.freetTypeLabel}`,
       freetType: util.constructFreetTypeResponse(freetType)
     });
   }
 );
 
 /**
- * Get all the freet types
+ * Delete a freet type
  *
- * @name GET /api/freetTypes
- *
- * @return {FreetResponse[]} - A list of all the freet types sorted in descending
- *                      order by date modified
- */
-
-router.get(
-  '/',
-  async (req: Request, res: Response) => {
-    const allFreetTypes = await FreetTypeCollection.findAll();
-    const response = allFreetTypes.map(util.constructFreetTypeResponse);
-    res.status(200).json(response);
-  }
-);
-
-/**
- * Delete a freet
- *
- * @name DELETE /api/freets/:id
+ * @name DELETE /api/freetTypes/:contentId
  *
  * @return {string} - A success message
- * @throws {403} - If the user is not logged in or is not the author of
- *                 the freet
- * @throws {404} - If the freetId is not valid
+ * @throws {403} - If the user is not logged in
+ * @throws {404} - If freet type with contentId exists
  */
 router.delete(
   '/:freetTypeId?',
   [
-    userValidator.isUserLoggedIn
-    // freetValidator.isFreetExists,
-    // freetValidator.isValidFreetModifier
+    userValidator.isUserLoggedIn,
+    freetTypeValidator.isFreetTypeIdExists
   ],
   async (req: Request, res: Response) => {
     await FreetTypeCollection.deleteOne(req.params.freetTypeId);

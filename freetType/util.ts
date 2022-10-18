@@ -1,6 +1,6 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
-import type {FreetType} from './model';
+import type {FreetType, PopulatedFreetType} from './model';
 
 // Update this if you add a property to the FreetType type!
 type FreetTypeResponse = {
@@ -16,14 +16,23 @@ type FreetTypeResponse = {
  * @returns {FreetTypeResponse} - The freetType object without the password
  */
 const constructFreetTypeResponse = (freetType: HydratedDocument<FreetType>): FreetTypeResponse => {
-  const freetTypeCopy: FreetType = {
+  const freetTypeCopy: PopulatedFreetType = {
     ...freetType.toObject({
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
+  // const {content} = freetTypeCopy.publishedContent;
+  // delete freetTypeCopy.publishedContent;
+  // return {
+  //   ...freetTypeCopy,
+  //   _id: freetTypeCopy._id.toString(),
+  //   freetTypeLabel: freetTypeCopy.freetTypeLabel,
+  //   hello: content
+  // };
   return {
     ...freetTypeCopy,
-    _id: freetTypeCopy._id.toString()
+    _id: freetTypeCopy._id.toString(),
+    freetTypeLabel: freetTypeCopy.freetTypeLabel
   };
 };
 
