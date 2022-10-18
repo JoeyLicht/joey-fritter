@@ -340,7 +340,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - An array of all the freet types sorted in alphabetical order
 
-#### `GET /api/freetTypes?freetType=freetTypeLabel - Get freet types by freet type labels
+#### `GET /api/freetTypes?freetType=freetTypeLabel` - Get freet types by freet type labels
 
 **Returns**
 
