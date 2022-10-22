@@ -86,18 +86,17 @@ router.post(
 /**
  * Delete a freet type
  *
- * @name DELETE /api/freetTypes/:contentId
+ * @name DELETE /api/freetTypes/:Id
  *
  * @return {string} - A success message
- * @throws {403} - If the user is not logged in
- * @throws {403} - If the user is not the author of the FreetType
- * @throws {404} - If freet type with contentId doesn't exist
+ * @throws {403} - If the user is not logged in or user is not the author of the FreetType
+ * @throws {404} - If freetTypeId is not valid
  */
 router.delete(
   '/:freetTypeId?',
   [
     userValidator.isUserLoggedIn,
-    freetTypeValidator.isFreetTypeIdExists,
+    freetTypeValidator.isFreetTypeDeletable,
     freetTypeValidator.isValidFreetTypeModifier
   ],
   async (req: Request, res: Response) => {

@@ -42,6 +42,24 @@ const isFreetTypeExists = async (req: Request, res: Response, next: NextFunction
 };
 
 /**
+ * Checks if a freet Type with freetTypeId is req.params exists
+ */
+const isFreetTypeDeletable = async (req: Request, res: Response, next: NextFunction) => {
+  const validFormat = Types.ObjectId.isValid(req.params.freetTypeId);
+  const freetType = validFormat ? await FreetTypeCollection.findOneByFreetTypeId(req.params.freetTypeId) : '';
+  if (!freetType) {
+    res.status(404).json({
+      error: {
+        freetNotFound: `Freet Type with freet type ID ${req.params.freetTypeId} does not exist.`
+      }
+    });
+    return;
+  }
+
+  next();
+};
+
+/**
  * Checks if a freet type with freetType as freetTypeLabel in req.body and contentId in req.params exists
  */
 const isUniqueCombination = async (req: Request, res: Response, next: NextFunction) => {
@@ -92,5 +110,6 @@ export {
   isFreetTypeExists,
   isUniqueCombination,
   isFreetTypeIdExists,
-  isValidFreetTypeModifier
+  isValidFreetTypeModifier,
+  isFreetTypeDeletable
 };

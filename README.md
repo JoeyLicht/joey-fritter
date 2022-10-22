@@ -361,7 +361,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 - `403` if the user is not the author of the freet type
-- `404` If freet type with contentId doesn't exist
+- `404` If freetTypeId is not valid
 
 ## My New API routes for to be implemented concepts:
 #### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type
