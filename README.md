@@ -314,8 +314,6 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
-## My New API routes for implemented concept:
-
 #### `POST /api/freetTypes/:contentId?` - Create a new freetType
 
 **Body**
@@ -329,8 +327,8 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
-- `400` if the freetTypeLabel is in wrong format
-- `400` if contentId is in wrong format (must be a nonempty alphabetical string.)
+- `400` if the freetTypeLabel is in wrong format (must be a nonempty alphabetical string.)
+- `400` if contentId does not exist
 - `403` if user is not logged in or is not the author of the content
 - `409` if the freetTypeLabel has already been applied to contentID
 
@@ -362,6 +360,26 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `403` if the user is not the author of the freet type
 - `404` If freetTypeId is not valid
+
+#### `POST /api/fullStories/:contentId?` - Create a new fullStory
+
+**Body**
+
+- `fullStoryContent` _{string}_ - The full story content
+
+**Returns**
+
+- A success message
+- A object with the created full story
+
+**Throws**
+
+- `400` if fullStoryContent is empty or a stream of empty spaces
+- `400` if contentId does not exist
+- `403` if the user is not logged in or is not the author of the content
+- `409` if the full story has already been applied to contentID
+- `413` if the fullStoryContent is more than 1,000 words long
+
 
 ## My New API routes for to be implemented concepts:
 #### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type

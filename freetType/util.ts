@@ -16,7 +16,7 @@ type FreetTypeResponse = {
  * with all the information needed by the frontend
  *
  * @param {HydratedDocument<FreetType>} freetType - A freetType object
- * @returns {FreetTypeResponse} - The freetType object without the password
+ * @returns {FreetTypeResponse} - The freetType object
  */
 const constructFreetTypeResponse = (freetType: HydratedDocument<FreetType>): FreetTypeResponse => {
   const freetTypeCopy: PopulatedFreetType = {

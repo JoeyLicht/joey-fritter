@@ -42,7 +42,8 @@ const formsAndHandlers = {
   'view-all-freet-types': viewAllFreetTypes,
   'delete-freet-type': deleteFreetType,
   'filter-by-freet-type': filterByFreetType,
-  'tag-freet': tagFreet
+  'tag-freet': tagFreet,
+  'add-full-story': addFullStory
 };
 
 // Attach handlers to forms

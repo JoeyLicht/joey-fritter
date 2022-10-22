@@ -3,7 +3,6 @@
 
 /**
  * Fields is an object mapping the names of the form inputs to the values typed in
- * e.g. for createFreetType, fields has property 'freetType'
  */
 
 function viewAllFreetTypes(fields) {
