@@ -33,7 +33,7 @@ const isFreetTypeExists = async (req: Request, res: Response, next: NextFunction
   const freetType = await FreetTypeCollection.findOneByfreetTypeLabel(req.query.freetType as string);
   if (!freetType) {
     res.status(404).json({
-      error: `A freet type with freet type ${req.query.freetType as string} does not exist.`
+      error: `A freet type with freet type '${req.query.freetType as string}' does not exist.`
     });
     return;
   }
@@ -71,9 +71,26 @@ const isFreetTypeIdExists = async (req: Request, res: Response, next: NextFuncti
   next();
 };
 
+/**
+ * Checks if the current user is the author of the freet type whose freetId is in req.params
+ */
+const isValidFreetTypeModifier = async (req: Request, res: Response, next: NextFunction) => {
+  const freetType = await FreetTypeCollection.findOneByFreetTypeId(req.params.freetTypeId.toString());
+  const userId = freetType.authorId._id;
+  if (req.session.userId !== userId.toString()) {
+    res.status(403).json({
+      error: 'Cannot modify other users\' freets types.'
+    });
+    return;
+  }
+
+  next();
+};
+
 export {
   isValidFreetTypeLabel,
   isFreetTypeExists,
   isUniqueCombination,
-  isFreetTypeIdExists
+  isFreetTypeIdExists,
+  isValidFreetTypeModifier
 };

@@ -320,7 +320,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Body**
 
-- `freetTypeLabel` _{string}_ - The label/freet type
+- `freetTypeLabel` _{string}_ - The freet type (label)
 
 **Returns**
 
@@ -330,7 +330,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `400` if the freetTypeLabel is in wrong format
-- `400` if contentId is in wrong format
+- `400` if contentId is in wrong format (must be a nonempty alphabetical string.)
 - `403` if user is not logged in or is not the author of the content
 - `409` if the freetTypeLabel has already been applied to contentID
 
@@ -338,7 +338,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Returns**
 
-- An array of all the freet types sorted in alphabetical order
+- An array of all the freet types sorted in alphabetical order by freet type label
 
 #### `GET /api/freetTypes?freetType=freetTypeLabel` - Get freet types by freet type labels
 
@@ -361,7 +361,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 - `403` if the user is not the author of the freet type
-- `404` If freet type with contentId exists
+- `404` If freet type with contentId doesn't exist
 
 ## My New API routes for to be implemented concepts:
 #### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type

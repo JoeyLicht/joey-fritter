@@ -13,12 +13,14 @@ export type FreetType = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   freetTypeLabel: string;
   publishedContent: Types.ObjectId;
+  authorId: Types.ObjectId;
 };
 
 export type PopulatedFreetType = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   freetTypeLabel: string;
   publishedContent: Freet;
+  authorId: User;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -36,6 +38,13 @@ const FreetTypeSchema = new Schema<FreetType>({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'Freet'
+  },
+  // The author userId
+  authorId: {
+    // Use Types.ObjectId outside of the schema
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
   }
 });
 

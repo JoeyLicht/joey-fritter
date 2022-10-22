@@ -15,7 +15,7 @@ const router = express.Router();
  *
  * @name GET /api/freetTypes
  *
- * @return {FreetTypeResponse[]} - An array of all the freet types sorted in alphabetical order
+ * @return {FreetTypeResponse[]} - An array of all the freet types sorted in alphabetical order by freet type label
  */
 /**
  * Get freet types by freet type label.
@@ -74,7 +74,8 @@ router.post(
     freetTypeValidator.isUniqueCombination
   ],
   async (req: Request, res: Response) => {
-    const freetType = await FreetTypeCollection.addOne(req.params.freetId, req.body.freetTypeLabel);
+    const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    const freetType = await FreetTypeCollection.addOne(req.params.freetId, req.body.freetTypeLabel, userId);
     res.status(201).json({
       message: `Your successfully labeled a freet with freet type: ${freetType.freetTypeLabel}`,
       freetType: util.constructFreetTypeResponse(freetType)
@@ -89,13 +90,15 @@ router.post(
  *
  * @return {string} - A success message
  * @throws {403} - If the user is not logged in
- * @throws {404} - If freet type with contentId exists
+ * @throws {403} - If the user is not the author of the FreetType
+ * @throws {404} - If freet type with contentId doesn't exist
  */
 router.delete(
   '/:freetTypeId?',
   [
     userValidator.isUserLoggedIn,
-    freetTypeValidator.isFreetTypeIdExists
+    freetTypeValidator.isFreetTypeIdExists,
+    freetTypeValidator.isValidFreetTypeModifier
   ],
   async (req: Request, res: Response) => {
     await FreetTypeCollection.deleteOne(req.params.freetTypeId);

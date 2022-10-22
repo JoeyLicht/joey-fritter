@@ -12,16 +12,19 @@ class FreetTypeCollection {
   /**
    * Add a new Freet Type
    *
+   * @param {Types.ObjectId | string} publishedContent - The id of the published content
    * @param {string} freetTypeLabel - The Freet Type (label)
+   * @param {Types.ObjectId | string} authorId - The id of the author of the freet
    * @return {Promise<HydratedDocument<FreetType>>} - The newly created Freet Type
    */
-  static async addOne(publishedContent: Types.ObjectId | string, freetTypeLabel: string): Promise<HydratedDocument<FreetType>> {
+  static async addOne(publishedContent: Types.ObjectId | string, freetTypeLabel: string, authorId: Types.ObjectId | string): Promise<HydratedDocument<FreetType>> {
     const freetType = new FreetTypeModel({
       freetTypeLabel,
-      publishedContent
+      publishedContent,
+      authorId
     });
     await freetType.save(); // Saves user to MongoDB
-    return freetType.populate('publishedContent');
+    return (await freetType.populate('publishedContent')).populate('authorId');
   }
 
   /**
@@ -31,7 +34,7 @@ class FreetTypeCollection {
    */
   static async findAll(): Promise<Array<HydratedDocument<FreetType>>> {
     // Retrieves freets and sorts them from most to least recent
-    return FreetTypeModel.find({}).sort({freetTypeLabel: 1}).populate('publishedContent');
+    return FreetTypeModel.find({}).sort({freetTypeLabel: 1}).populate('publishedContent').populate('authorId');
   }
 
   /**
@@ -83,7 +86,7 @@ class FreetTypeCollection {
    * @return {Promise<HydratedDocument<FreetType>[]>} - An array of all of the freet types
    */
   static async findAllByFreetType(label: string): Promise<Array<HydratedDocument<FreetType>>> {
-    return FreetTypeModel.find({freetTypeLabel: label}).populate('publishedContent');
+    return FreetTypeModel.find({freetTypeLabel: label}).populate('publishedContent').populate('authorId');
   }
 }
 
