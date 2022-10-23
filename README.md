@@ -314,6 +314,8 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
+## My New API routes:
+
 #### `POST /api/freetTypes/:contentId?` - Create a new freetType
 
 **Body**
@@ -392,6 +394,11 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - Full story with contentId `contentId`
 
+**Throws**
+
+- `400` If `contentId` is not given
+- `404` If no full story has `contentId`
+
 #### `DELETE /api/fullStories/:contentId?` - Delete an existing full story
 
 **Returns**
@@ -404,7 +411,7 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not the author of the Full Story
 - `404` If fullStoryId is not valid
 
-## My New API routes for to be implemented concepts:
+## TODO API:
 #### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type
 
 **Body**

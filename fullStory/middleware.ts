@@ -54,7 +54,7 @@ const isFullStoryExists = async (req: Request, res: Response, next: NextFunction
   const fullStory = await FullStoryCollection.findOneByContentId(req.query.contentId as string);
   if (!fullStory) {
     res.status(404).json({
-      error: `A full story with content id'${req.query.contentId as string}' does not exist.`
+      error: `A full story with content id '${req.query.contentId as string}' does not exist.`
     });
     return;
   }
