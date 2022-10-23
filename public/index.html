@@ -9,6 +9,7 @@
   <script src="/scripts/user.js"></script>
   <script src="/scripts/freetType.js"></script>
   <script src="/scripts/fullStory.js"></script>
+  <script src="/scripts/likes.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -96,6 +97,38 @@
             <textarea id="content" name="content"></textarea>
           </div>
           <input type="submit" value="Create Freet">
+        </form>
+
+        <form id="create-like">
+          <h3>Like Freet</h3>
+          <div>
+            <label for="id">Freet ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Like Freet">
+        </form>
+
+        <form id="delete-like">
+          <h3>Unlike Freet</h3>
+          <div>
+            <label for="id">Freet ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Unlike Freet">
+        </form>
+        
+        <form id="view-all-likes">
+          <h3>View All Likes</h3>
+          <input type="submit" value="View All Likes">
+        </form>
+
+        <form id="view-likes-by-freet">
+          <h3>View Likes by Freet</h3>
+          <div>
+            <label for="contentId">Freet ID:</label>
+            <input id="contentId" name="contentId">
+          </div>
+          <input type="submit" value="View Likes by Freet">
         </form>
 
         <form id="add-full-story">

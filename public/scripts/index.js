@@ -47,7 +47,11 @@ const formsAndHandlers = {
   'view-all-full-stories': viewAllFullStories,
   'view-full-stories-by-content': filterByContent,
   'delete-full-story': deleteFullStory,
-  'toggle-full-story': toggleFullStory
+  'toggle-full-story': toggleFullStory,
+  'create-like': createLike,
+  'view-all-likes': viewAllLikes,
+  'delete-like': deleteLike,
+  'view-likes-by-freet': viewLikesByFreet
 };
 
 // Attach handlers to forms

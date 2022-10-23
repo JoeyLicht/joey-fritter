@@ -330,7 +330,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `400` if the freetTypeLabel is not one of the predefined freet types
-- `400` if contentId does not exist
+- `404` if content with contentId does not exist
 - `403` if user is not logged in or is not the author of the content
 - `409` if the freetTypeLabel has already been applied to contentID
 
@@ -377,7 +377,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `400` if fullStoryContent is empty or a stream of empty spaces
-- `400` if contentId does not exist
+- `404` if content with contentId does not exist
 - `403` if the user is not logged in or is not the author of the content
 - `409` if the full story has already been applied to contentID
 - `413` if the fullStoryContent is more than 1,000 words long
@@ -424,6 +424,48 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `403` if the user is not the author of the Full Story
 - `404` If fullStoryId is not valid
+
+#### `POST /api/likes/:contentId?` - Create a new like
+
+**Returns**
+
+- A success message
+- A object with the created like
+
+**Throws**
+
+- `403` if user is not logged in or is not the author of the content
+- `404` if content with contentId does not exist
+- `409` If like has already been applied to contentID by user
+
+#### `GET /api/likes` - Get all the likes
+
+**Returns**
+
+- An array of all the likes
+
+#### `GET /api/likes?contentId=id` - Get likes by content id
+
+**Returns**
+
+- Like with contentId `contentId`
+
+**Throws**
+
+- `400` If `contentId` is not given
+- `404` If no like has `contentId`
+
+#### `DELETE /api/likes/:contentId?` - Delete an existing like
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `403` if the user is not logged in or user is not the creator of the like
+- `404` if no like has content id
 
 ## TODO API:
 #### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type

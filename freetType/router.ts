@@ -59,7 +59,7 @@ router.get(
  * @return {FreetTypeResponse} - The created Freet Type
  * @throws {409} - If Freet Type has already been applied to contentID
  * @throws {400} - If Freet Type not one of the predefined freet types
- * @throws {400} - If contentId is not in correct format
+ * @throws {404} - If content with contentId does not exist
  * @throws {403} - If the user is not logged in or is not the author of
  *                 the content
  *

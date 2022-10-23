@@ -59,8 +59,25 @@ const isValidFreetModifier = async (req: Request, res: Response, next: NextFunct
   next();
 };
 
+/**
+ * Checks if the current user is not the author of the freet whose freetId is in req.params
+ */
+const isValidFreetReaction = async (req: Request, res: Response, next: NextFunction) => {
+  const freet = await FreetCollection.findOne(req.params.freetId);
+  const userId = freet.authorId._id;
+  if (req.session.userId === userId.toString()) {
+    res.status(403).json({
+      error: 'Cannot react to your own freets.'
+    });
+    return;
+  }
+
+  next();
+};
+
 export {
   isValidFreetContent,
   isFreetExists,
-  isValidFreetModifier
+  isValidFreetModifier,
+  isValidFreetReaction
 };

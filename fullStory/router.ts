@@ -60,7 +60,7 @@ router.get(
  * @param {string} contentId - The content id
  * @return {FreetTypeResponse} - The created Full Story
  * @throws {400} - if fullStoryContent is empty or a stream of empty spaces
- * @throws {400} - if contentId does not exist
+ * @throws {404} - If content with contentId does not exist
  * @throws {403} - if the user is not logged in or is not the author of the content
  * @throws {409} - if the full story has already been applied to contentID
  * @throws {413} - if the fullStoryContent is more than 1,000 words long
