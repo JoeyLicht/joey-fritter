@@ -33,7 +33,7 @@ class FreetTypeCollection {
    * @return {Promise<HydratedDocument<FreetType>[]>} - An array of all of the freets types
    */
   static async findAll(): Promise<Array<HydratedDocument<FreetType>>> {
-    // Retrieves freets and sorts them from most to least recent
+    // Retrieves freet types and sorts them alphabetically by freet type label
     return FreetTypeModel.find({}).sort({freetTypeLabel: 1}).populate('publishedContent').populate('authorId');
   }
 
@@ -50,7 +50,7 @@ class FreetTypeCollection {
   /**
    * Find a freet type by _id.
    *
-   * @param {string} _id - The _id of the freet type to find
+   * @param {string} id - The id of the freet type to find
    * @return {Promise<HydratedDocument<FreetType>> | Promise<null>} - The freet type with the given _id, if any
    */
   static async findOneByFreetTypeId(id: string): Promise<HydratedDocument<FreetType>> {

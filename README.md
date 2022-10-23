@@ -327,7 +327,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
-- `400` if the freetTypeLabel is in wrong format (must be a nonempty alphabetical string.)
+- `400` if the freetTypeLabel is not one of the predefined freet types
 - `400` if contentId does not exist
 - `403` if user is not logged in or is not the author of the content
 - `409` if the freetTypeLabel has already been applied to contentID
@@ -380,6 +380,29 @@ This renders the `index.html` file that will be used to interact with the backen
 - `409` if the full story has already been applied to contentID
 - `413` if the fullStoryContent is more than 1,000 words long
 
+#### `GET /api/fullStories` - Get all the full stories
+
+**Returns**
+
+- An array of all full stories
+
+#### `GET /api/fullStories?contentId=id` - Get full stories by content id
+
+**Returns**
+
+- Full story with contentId `contentId`
+
+#### `DELETE /api/fullStories/:contentId?` - Delete an existing full story
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `403` if the user is not the author of the Full Story
+- `404` If fullStoryId is not valid
 
 ## My New API routes for to be implemented concepts:
 #### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type

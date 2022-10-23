@@ -43,7 +43,10 @@ const formsAndHandlers = {
   'delete-freet-type': deleteFreetType,
   'filter-by-freet-type': filterByFreetType,
   'tag-freet': tagFreet,
-  'add-full-story': addFullStory
+  'add-full-story': addFullStory,
+  'view-all-full-stories': viewAllFullStories,
+  'view-full-stories-by-content': filterByContent,
+  'delete-full-story': deleteFullStory
 };
 
 // Attach handlers to forms

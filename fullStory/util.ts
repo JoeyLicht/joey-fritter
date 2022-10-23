@@ -7,7 +7,7 @@ import UserCollection from 'user/collection';
 type FullStoryResponse = {
   _id: string;
   fullStoryAuthor: string;
-  authorPublishedContent: string;
+  // authorPublishedContent: string;
   fullStoryContent: string;
 };
 
@@ -27,12 +27,12 @@ const constructFullStoryResponse = (fullStory: HydratedDocument<FullStory>): Ful
   const {username} = fullStoryCopy.authorId;
   delete fullStoryCopy.authorId;
   const {content} = fullStoryCopy.publishedContent;
-  delete fullStoryCopy.publishedContent;
+  // delete fullStoryCopy.publishedContent;
   return {
     ...fullStoryCopy,
     _id: fullStoryCopy._id.toString(),
     fullStoryAuthor: username,
-    authorPublishedContent: content,
+    // authorPublishedContent: content,
     fullStoryContent: fullStoryCopy.fullStoryContent
   };
 };

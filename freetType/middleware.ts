@@ -6,11 +6,11 @@ import FreetTypeCollection from '../freetType/collection';
  * Checks if valid FreetTypeLabel
  */
 const isValidFreetTypeLabel = async (req: Request, res: Response, next: NextFunction) => {
-  const freetTypeRegex = /^[a-z]+$/i;
+  const freetTypeRegex = /^(Politics|Comedy|Sports|Engineering|Happy|Sad|News)$/g;
   if (!freetTypeRegex.test(req.body.freetTypeLabel)) {
     res.status(400).json({
       error: {
-        freetType: 'Freet type must be a nonempty alphabetical string.'
+        freetType: 'Freet type must match exactly one of the following: Politics, Comedy, Sports, Engineering, Happy, Sad, News'
       }
     });
     return;

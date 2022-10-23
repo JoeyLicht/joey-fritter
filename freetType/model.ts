@@ -50,4 +50,3 @@ const FreetTypeSchema = new Schema<FreetType>({
 
 const FreetTypeModel = model<FreetType>('FreetType', FreetTypeSchema);
 export default FreetTypeModel;
-

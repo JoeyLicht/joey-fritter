@@ -12,6 +12,46 @@ import * as util from './util';
 const router = express.Router();
 
 /**
+ * Get all the full stories
+ *
+ * @name GET /api/fullStories
+ *
+ * @return {FreetResponse[]} - A list of all the full stories
+ */
+/**
+ * Get full stories by content id.
+ *
+ * @name GET /api/fullStories?contentId=id
+ *
+ * @return {FreetResponse[]} - The full stores with id, contentId
+ * @throws {400} - If contentId is not given
+ * @throws {404} - If no full story has contentId
+ *
+ */
+router.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    // Check if content id query parameter was supplied
+    if (req.query.contentId !== undefined) {
+      next();
+      return;
+    }
+
+    const allFullStories = await FullStoryCollection.findAll();
+    const response = allFullStories.map(util.constructFullStoryResponse);
+    res.status(200).json(response);
+  },
+  [
+    fullStoryValidator.isFullStoryExists
+  ],
+  async (req: Request, res: Response) => {
+    const contentFullStory = await FullStoryCollection.findOneByContentId(req.query.contentId as string);
+    const response = util.constructFullStoryResponse(contentFullStory);
+    res.status(200).json(response);
+  }
+);
+
+/**
  * Create a Full Story
  *
  * @name POST /api/fullStories/:contentId
@@ -29,17 +69,41 @@ router.post(
   '/:freetId?',
   [
     userValidator.isUserLoggedIn,
-    // freetTypeValidator.isValidFreetTypeLabel, //checky empty, stream empty spaces, over 1,000 words
+    fullStoryValidator.isValidFullStoryContent, //checky empty, stream empty spaces, over 1,000 words
     freetValidator.isFreetExists,
-    freetValidator.isValidFreetModifier
-    // freetTypeValidator.isFirstFullStory //check full story hasn't been applied to this freet
+    freetValidator.isValidFreetModifier,
+    fullStoryValidator.isFirstFullStory //check full story hasn't been applied to this freet
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const fullStory = await FullStoryCollection.addOne(req.params.freetId, req.body.fullStoryContent, userId);
     res.status(201).json({
-      message: `Your successfully added a Full Story`,
+      message: 'Your successfully added a Full Story',
       fullStory: util.constructFullStoryResponse(fullStory)
+    });
+  }
+);
+
+/**
+ * Delete a full story
+ *
+ * @name DELETE /api/fullStories/:Id
+ *
+ * @return {string} - A success message
+ * @throws {403} - If the user is not logged in or user is not the author of the Full Story
+ * @throws {404} - If fullStoryId is not valid
+ */
+router.delete(
+  '/:fullStoryId?',
+  [
+    userValidator.isUserLoggedIn,
+    fullStoryValidator.isFullStoryDeletable,
+    fullStoryValidator.isValidFullStoryModifier
+  ],
+  async (req: Request, res: Response) => {
+    await FullStoryCollection.deleteOne(req.params.fullStoryId);
+    res.status(200).json({
+      message: 'Your full story was deleted successfully.'
     });
   }
 );
