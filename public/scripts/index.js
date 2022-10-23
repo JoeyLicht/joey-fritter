@@ -46,7 +46,8 @@ const formsAndHandlers = {
   'add-full-story': addFullStory,
   'view-all-full-stories': viewAllFullStories,
   'view-full-stories-by-content': filterByContent,
-  'delete-full-story': deleteFullStory
+  'delete-full-story': deleteFullStory,
+  'toggle-full-story': toggleFullStory
 };
 
 // Attach handlers to forms

@@ -108,4 +108,29 @@ router.delete(
   }
 );
 
+/**
+ * Toggle a full story
+ *
+ * @name PUT /api/fullStories/:id
+ *
+ * @return {FullStoryResponse} - the updated full story
+ * @throws {403} - If the user is not logged in or user is not the author of the Full Story
+ * @throws {404} - If fullStoryId is not valid
+ */
+router.put(
+  '/:fullStoryId?',
+  [
+    userValidator.isUserLoggedIn,
+    fullStoryValidator.isFullStoryDeletable,
+    fullStoryValidator.isValidFullStoryModifier
+  ],
+  async (req: Request, res: Response) => {
+    const fullStory = await FullStoryCollection.updateOne(req.params.fullStoryId);
+    res.status(200).json({
+      message: 'Your full story was toggled successfully.',
+      fullStory: util.constructFullStoryResponse(fullStory)
+    });
+  }
+);
+
 export {router as fullStoryRouter};

@@ -411,6 +411,20 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not the author of the Full Story
 - `404` If fullStoryId is not valid
 
+#### `PUT /api/fullStories/:fullStoryId?` - Toggle the view of an existing full story
+
+
+**Returns**
+
+- A success message
+- An object with the updated full story
+
+**Throws**
+
+- `403` if the user is not logged in
+- `403` if the user is not the author of the Full Story
+- `404` If fullStoryId is not valid
+
 ## TODO API:
 #### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type
 

@@ -18,10 +18,12 @@ class FullStoryCollection {
    * @return {Promise<HydratedDocument<FullStory>>} - The newly created Full Story
    */
   static async addOne(publishedContent: Types.ObjectId | string, fullStoryContent: string, authorId: Types.ObjectId | string): Promise<HydratedDocument<FullStory>> {
+    const display = false; //Initialize display to false
     const fullStory = new FullStoryModel({
       authorId,
       publishedContent,
-      fullStoryContent
+      fullStoryContent,
+      display
     });
     await fullStory.save(); // Saves user to MongoDB
     return (await fullStory.populate('publishedContent')).populate('authorId');
@@ -53,7 +55,7 @@ class FullStoryCollection {
    * @return {Promise<HydratedDocument<FullStory>[]>} - An array of all of the full stories
    */
   static async findAll(): Promise<Array<HydratedDocument<FullStory>>> {
-    // Retrieves freets and sorts them from most to least recent
+    // Retrieves full stories and sorts them from most to least recent
     return FullStoryModel.find({}).populate('publishedContent').populate('authorId');
   }
 
@@ -66,6 +68,19 @@ class FullStoryCollection {
   static async deleteOne(fullStoryId: Types.ObjectId | string): Promise<boolean> {
     const fullStory = await FullStoryModel.deleteOne({_id: fullStoryId});
     return fullStory !== null;
+  }
+
+  /**
+   * Toggle the full story
+   *
+   * @param {string} fullStoryId - The id of the full story to be updated
+   * @return {Promise<HydratedDocument<FullStory>>} - The newly updated full story
+   */
+  static async updateOne(fullStoryId: Types.ObjectId | string): Promise<HydratedDocument<FullStory>> {
+    const fullStory = await FullStoryModel.findOne({_id: fullStoryId});
+    fullStory.display = !fullStory.display;
+    await fullStory.save();
+    return (await fullStory.populate('publishedContent')).populate('authorId');
   }
 }
 
