@@ -14,6 +14,7 @@ import {freetRouter} from '../freet/router';
 import {freetTypeRouter} from '../freetType/router';
 import {fullStoryRouter} from '../fullStory/router';
 import {likeRouter} from '../like/router';
+import {feedRouter} from '../feed/router';
 
 // Load environmental variables
 dotenv.config({});
@@ -82,6 +83,7 @@ app.use('/api/freets', freetRouter);
 app.use('/api/freetTypes', freetTypeRouter);
 app.use('/api/fullStories', fullStoryRouter);
 app.use('/api/likes', likeRouter);
+app.use('/api/feeds', feedRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {
