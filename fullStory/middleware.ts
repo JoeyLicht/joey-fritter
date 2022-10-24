@@ -2,6 +2,8 @@ import type {Request, Response, NextFunction} from 'express';
 import {Types} from 'mongoose';
 import FullStoryCollection from '../fullStory/collection';
 
+const mongoose = require('mongoose');
+
 /**
  * Checks if the content of the freet in req.body is valid, i.e not a stream of empty
  * spaces and not more than 140 characters
@@ -47,6 +49,13 @@ const isFullStoryExists = async (req: Request, res: Response, next: NextFunction
   if (!req.query.contentId) {
     res.status(400).json({
       error: 'Provided contentId must be nonempty.'
+    });
+    return;
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(req.query.contentId)) {
+    res.status(404).json({
+      error: `A like with content id '${req.query.contentId as string}' does not exist.`
     });
     return;
   }

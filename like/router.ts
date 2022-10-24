@@ -56,13 +56,13 @@ router.post(
  *
  * @return {LikeResponse[]} - The likes with id, contentId
  * @throws {400} - If contentId is not given
- * @throws {404} - If no like has content id
+ * @throws {404} - If no like has id, contentId
  *
  */
 router.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
-    if (req.query.freetType !== undefined) {
+    if (req.query.contentId !== undefined) {
       next();
       return;
     }
@@ -89,18 +89,18 @@ router.get(
  * @return {string} - A success message
  *
  * @throws {400} - If contentId is not given
- * @throws {403} - If the user is not logged in or user is not the creator of the like
- * @throws {404} - If no like has content id
+ * @throws {403} - If the user is not logged in
+ * @throws {404} - If user has not liked content with id
  */
 router.delete(
-  '/:freetId?',
+  '/:contentId?',
   [
     userValidator.isUserLoggedIn,
-    likeValidator.isLikeDeletable,
-    likeValidator.isLikeExists
+    likeValidator.isContentIdNonEmpty,
+    likeValidator.isLikeDeletable
   ],
   async (req: Request, res: Response) => {
-    await LikeCollection.deleteOne(req.params.likeId);
+    await LikeCollection.deleteOne(req.params.contentId);
     res.status(200).json({
       message: 'Your like was deleted successfully.'
     });

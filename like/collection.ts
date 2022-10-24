@@ -33,7 +33,17 @@ class LikeCollection {
    * @return {Promise<HydratedDocument<Like>> | Promise<null>} - The like with the given contentId and userID, if any
    */
   static async findOneByContentIdAndUserId(contentId: string, userId: string): Promise<HydratedDocument<Like>> {
-    return LikeModel.findOne({publishedContent: contentId, authorId: userId});
+    return LikeModel.findOne({publishedContent: contentId, authorId: userId}).populate('publishedContent').populate('authorId');
+  }
+
+  /**
+   * Find a like by published content id
+   *
+   * @param {string} contentId - The id of the content to find
+   * @return {Promise<HydratedDocument<Like>> | Promise<null>} - The like with the given contentId, if any
+   */
+  static async findOneByContentId(contentId: string): Promise<HydratedDocument<Like>> {
+    return LikeModel.findOne({publishedContent: contentId}).populate('publishedContent').populate('authorId');
   }
 
   /**
@@ -53,7 +63,7 @@ class LikeCollection {
    */
   static async findAll(): Promise<Array<HydratedDocument<Like>>> {
     // Retrieves likes
-    return LikeModel.find({}).populate('publishedContent').populate('authorId');
+    return LikeModel.find({}).sort({publishedContent: 1}).populate('publishedContent').populate('authorId');
   }
 
   /**

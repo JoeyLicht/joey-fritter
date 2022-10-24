@@ -434,7 +434,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
-- `403` if user is not logged in or is not the author of the content
+- `403` if user is not logged in or is the author of the content
 - `404` if content with contentId does not exist
 - `409` If like has already been applied to contentID by user
 
@@ -453,7 +453,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `400` If `contentId` is not given
-- `404` If no like has `contentId`
+- `404` If no like has id, `contentId`
 
 #### `DELETE /api/likes/:contentId?` - Delete an existing like
 
@@ -463,9 +463,9 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `400` if the contentId is not given
 - `403` if the user is not logged in
-- `403` if the user is not logged in or user is not the creator of the like
-- `404` if no like has content id
+- `404` if the user has not liked content with contentId
 
 ## TODO API:
 #### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type
