@@ -69,6 +69,16 @@ class FreetTypeCollection {
   }
 
   /**
+   * Find a freet type published content id.
+   *
+   * @param {string} contentId - The id of the content to find
+   * @return {Promise<HydratedDocument<FreetType>> | Promise<null>} - The freet type with the given contentId, if any
+   */
+  static async findOneByContentId(contentId: string): Promise<HydratedDocument<FreetType>> {
+    return FreetTypeModel.findOne({publishedContent: contentId});
+  }
+
+  /**
    * Delete a freetType with given freetTypeId.
    *
    * @param {string} freetTypeId - The freetTypeId of freetType to delete

@@ -8,7 +8,7 @@ type FreetTypeResponse = {
   _id: string;
   freetTypeLabel: string;
   freetTypeAuthor: string;
-  authorPublishedContent: string;
+  // authorPublishedContent: string;
 };
 
 /**
@@ -27,13 +27,13 @@ const constructFreetTypeResponse = (freetType: HydratedDocument<FreetType>): Fre
   const {username} = freetTypeCopy.authorId;
   delete freetTypeCopy.authorId;
   const {content} = freetTypeCopy.publishedContent;
-  delete freetTypeCopy.publishedContent;
+  // delete freetTypeCopy.publishedContent;
   return {
     ...freetTypeCopy,
     _id: freetTypeCopy._id.toString(),
     freetTypeLabel: freetTypeCopy.freetTypeLabel,
-    freetTypeAuthor: username,
-    authorPublishedContent: content
+    freetTypeAuthor: username
+    // authorPublishedContent: content
   };
 };
 

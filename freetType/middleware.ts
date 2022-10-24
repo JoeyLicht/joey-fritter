@@ -63,10 +63,10 @@ const isFreetTypeDeletable = async (req: Request, res: Response, next: NextFunct
  * Checks if a freet type with freetType as freetTypeLabel in req.body and contentId in req.params exists
  */
 const isUniqueCombination = async (req: Request, res: Response, next: NextFunction) => {
-  const freetType = await FreetTypeCollection.findOneByfreetTypeLabelAndContentId(req.body.freetTypeLabel as string, req.params.freetId.toString());
+  const freetType = await FreetTypeCollection.findOneByContentId(req.params.freetId.toString());
   if (freetType) {
     res.status(409).json({
-      error: `Freet type ${req.body.freetTypeLabel as string} has already been applied to freet ${req.params.freetId.toString()}`
+      error: `Freet type has already been applied to freet ${req.params.freetId.toString()}`
     });
     return;
   }
