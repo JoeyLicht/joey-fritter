@@ -6,6 +6,7 @@ import UserCollection from 'user/collection';
 // Update this if you add a property to the Feed type!
 type FeedResponse = {
   _id: string;
+  user: string;
 };
 
 /**
@@ -21,9 +22,12 @@ const constructFeedResponse = (feed: HydratedDocument<Feed>): FeedResponse => {
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
+  const {username} = feedCopy.userId;
+  delete feedCopy.userId;
   return {
     ...feedCopy,
-    _id: feedCopy._id.toString()
+    _id: feedCopy._id.toString(),
+    user: username
   };
 };
 

@@ -14,6 +14,7 @@ export type FreetType = {
   freetTypeLabel: string;
   publishedContent: Types.ObjectId;
   authorId: Types.ObjectId;
+  dateFreetType: Date;
 };
 
 export type PopulatedFreetType = {
@@ -21,6 +22,7 @@ export type PopulatedFreetType = {
   freetTypeLabel: string;
   publishedContent: Freet;
   authorId: User;
+  date: Date;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -45,6 +47,11 @@ const FreetTypeSchema = new Schema<FreetType>({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User'
+  },
+  // The date the freet type was created
+  dateFreetType: {
+    type: Date,
+    required: true
   }
 });
 

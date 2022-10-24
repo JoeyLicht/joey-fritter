@@ -18,10 +18,12 @@ class FreetTypeCollection {
    * @return {Promise<HydratedDocument<FreetType>>} - The newly created Freet Type
    */
   static async addOne(publishedContent: Types.ObjectId | string, freetTypeLabel: string, authorId: Types.ObjectId | string): Promise<HydratedDocument<FreetType>> {
+    const date = new Date();
     const freetType = new FreetTypeModel({
       freetTypeLabel,
       publishedContent,
-      authorId
+      authorId,
+      dateFreetType: date
     });
     await freetType.save(); // Saves user to MongoDB
     return (await freetType.populate('publishedContent')).populate('authorId');
