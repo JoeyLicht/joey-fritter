@@ -37,7 +37,6 @@ class FeedCollection {
       lisPreferences.push('Politics');
     }
 
-
     if (preferences.sports) {
       lisPreferences.push('Sports');
     }

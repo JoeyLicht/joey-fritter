@@ -413,7 +413,6 @@ This renders the `index.html` file that will be used to interact with the backen
 
 #### `PUT /api/fullStories/:fullStoryId?` - Toggle the view of an existing full story
 
-
 **Returns**
 
 - A success message
@@ -467,151 +466,52 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `404` if the user has not liked content with contentId
 
-
-
-#Todoooooooo
-
-
-
-FEEDDDDDD
-
-
-
-#ENDDDTodoooooooo
-
-
-
-
-
-
-## TODO API:
-#### `POST /api/feedControl/:contentType?` - Initialize feed control preference for existing content type
+#### `POST /api/feeds` - Create a new feed
 
 **Body**
 
-- `percentage` _{number}_ - The percent of content type
+- `politics`    _{string}_ - The user's politics preference
+- `comedy`      _{string}_ - The user's comedy preference
+- `sports`      _{string}_ - The user's sports preference
+- `engineering` _{string}_ - The user's engineering preference
+- `happy`       _{string}_ - The user's happy preference
+- `sad`         _{string}_ - The user's sad preference
 
 **Returns**
 
 - A success message
+- A object with the created feed
 
 **Throws**
 
-- `400` if the percentage is out of range
-- `406` if percentage is invalid when considering all content types
+- `403` if user is not logged in
+- `400` if the user inputs aren't in correct format
+- `409` if the user has already created a feed
 
-#### `Put /api/feedControl/:contentType?` - Update feed control preference for existing content type
+#### `PUT /api/feeds` - Update a user's profile
 
 **Body**
 
-- `percentage` _{number}_ - The percent of content type
+- `politics`    _{string}_ - The user's politics preference
+- `comedy`      _{string}_ - The user's comedy preference
+- `sports`      _{string}_ - The user's sports preference
+- `engineering` _{string}_ - The user's engineering preference
+- `happy`       _{string}_ - The user's happy preference
+- `sad`         _{string}_ - The user's sad preference
 
 **Returns**
 
 - A success message
+- A object with the updated feed
 
 **Throws**
 
-- `400` if the percentage is out of range
-- `406` if percentage is invalid when considering all content types
+- `403` if user is not logged in
+- `400` if the user inputs aren't in correct format
+- `409` if the user has not already created a feed
 
-
-
-#### `GET /api/feedControl` - Get all the freets in correct distribution
-
-**Returns**
-
-- An array of all freets sorted in descending order by date modified in distribution chosen by user
-
-
-
-#### `POST /api/fullStory` - Create content with full story optionality
-
-**Body**
-
-- `headline` _{string}_ - The headline content
-- `fullStory` _{string}_ - The full story content
+#### `GET /api/likes` - Get users's curated feed
 
 **Returns**
 
-- A success message
-- Object with created content
-
-**Throws**
-
-- `403` if the user is not logged in
-- `400` If the headline content is empty or a stream of empty spaces or exceeds character limit
-- `400` If the full story is a stream of empty spaces
-- `413` If the headline is more than 280 characters long
-- `413` If the full story is more than 1000 words long
-
-
-#### `POST /api/freetLike/:freetId?` - Likes a Freet
-
-
-**Returns**
-
-- A success message
-- An object with the updated like count
-
-**Throws**
-
-- `403` if the user is not logged in
-- `404` if the freetId is invalid
-- `412` if the user has already liked the freet
-
-
-#### `DELETE /api/freetLike/:freetId?` - Remove like of a Freet
-
-**Returns**
-
-- A success message
-- An object with the updated like count
-
-**Throws**
-
-- `403` if the user is not logged in
-- `404` if the freetId is invalid
-- `412` if the user has not already liked the freet
-
-
-
-#### `GET /api/profile/followers?user=USERNAME` - Get all the followers of a user
-
-**Returns**
-
-- An array of all followers for a user
-
-
-#### `GET /api/profile/following?user=USERNAME` - Get all the users the user if following
-
-**Returns**
-
-- An array of all accounts user is following
-
-
-#### `POST /api/profile/:username?` - Follow user
-
-
-**Returns**
-
-- A success message
-
-**Throws**
-
-- `403` if the user is not logged in
-- `404` if the username is invalid
-- `412` if the user already follows user
-
-#### `DELETE /api/profile/:username?` - Unfollow user
-
-
-**Returns**
-
-- A success message
-
-**Throws**
-
-- `403` if the user is not logged in
-- `404` if the username is invalid
-- `412` if the user doesn't already follows user
+- An array of all the content that matches users feed preferences, sorted by date (newest to oldest)
