@@ -72,8 +72,8 @@ class LikeCollection {
    * @param {string} freetId - The freetId of like to delete
    * @return {Promise<Boolean>} - true if the like has been deleted, false otherwise
    */
-  static async deleteOne(freetId: Types.ObjectId | string): Promise<boolean> {
-    const like = await LikeModel.deleteOne({publishedContent: freetId});
+  static async deleteOne(freetId: Types.ObjectId | string, userId: string): Promise<boolean> {
+    const like = await LikeModel.deleteOne({publishedContent: freetId, authorId: userId});
     return like !== null;
   }
 }
