@@ -1,6 +1,7 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {Like} from './model';
 import LikeModel from './model';
+import FreetModel from '../freet/model';
 
 /**
  * This file contains a class with functionality to create Likes
@@ -93,6 +94,17 @@ class LikeCollection {
    */
   static async deleteManyContent(publishedContent: Types.ObjectId | string): Promise<void> {
     await LikeModel.deleteMany({publishedContent});
+  }
+
+  /**
+   * Delete all the likes of any freets posted by userId
+   *
+   * @param {string} userId - The id of user whose freets's likes we want to delete
+   */
+  static async deleteLikesOfUserFreets(userId: Types.ObjectId | string): Promise<void> {
+    const authorFreets = await FreetModel.find({authorId: userId});
+    const userFreetIds = authorFreets.map(freet => freet._id.toString());
+    await LikeModel.deleteMany({publishedContent: {$in: userFreetIds}});
   }
 }
 

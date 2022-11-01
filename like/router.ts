@@ -67,7 +67,6 @@ router.get(
       next();
       return;
     }
-    
     const allLikes = await LikeCollection.findAll();
     const response = allLikes.map(util.constructLikeResponse);
     res.status(200).json(response);

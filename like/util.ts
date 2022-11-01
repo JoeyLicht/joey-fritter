@@ -25,7 +25,7 @@ const constructLikeResponse = (like: HydratedDocument<Like>): LikeResponse => {
   };
   const {username} = likeCopy.authorId;
   delete likeCopy.authorId;
-  const {content} = likeCopy.publishedContent;
+  // const {content} = likeCopy.publishedContent;
   // delete likeCopy.publishedContent;
   return {
     ...likeCopy,
