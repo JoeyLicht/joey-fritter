@@ -100,6 +100,24 @@ class FreetTypeCollection {
   static async findAllByFreetType(label: string): Promise<Array<HydratedDocument<FreetType>>> {
     return FreetTypeModel.find({freetTypeLabel: label}).populate('publishedContent').populate('authorId');
   }
+
+  /**
+   * Delete all the Freet types by the given author
+   *
+   * @param {string} authorId - The id of author of Freet Types
+   */
+  static async deleteMany(authorId: Types.ObjectId | string): Promise<void> {
+    await FreetTypeModel.deleteMany({authorId});
+  }
+
+  /**
+   * Delete all the Freet Types by the given publishedContent
+   *
+   * @param {string} publishedContent - The id of Freet Type of publishedContent
+   */
+  static async deleteManyContent(publishedContent: Types.ObjectId | string): Promise<void> {
+    await FreetTypeModel.deleteMany({publishedContent});
+  }
 }
 
 export default FreetTypeCollection;

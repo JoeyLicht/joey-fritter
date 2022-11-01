@@ -209,6 +209,15 @@ class FeedCollection {
     await like.save(); // Saves user to MongoDB
     return like.populate('userId');
   }
+  
+  /**
+   * Delete all the feeds (should only be one) by the given author
+   *
+   * @param {string} userId - The id of users feed
+   */
+  static async deleteMany(userId: Types.ObjectId | string): Promise<void> {
+    await FeedModel.deleteMany({userId});
+  }
 }
 
 export default FeedCollection;

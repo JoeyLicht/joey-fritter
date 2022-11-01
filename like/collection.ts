@@ -76,6 +76,24 @@ class LikeCollection {
     const like = await LikeModel.deleteOne({publishedContent: freetId, authorId: userId});
     return like !== null;
   }
+
+  /**
+   * Delete all the likes by the given author
+   *
+   * @param {string} authorId - The id of author of like
+   */
+  static async deleteMany(authorId: Types.ObjectId | string): Promise<void> {
+    await LikeModel.deleteMany({authorId});
+  }
+
+  /**
+   * Delete all the likes by the given publishedContent
+   *
+   * @param {string} publishedContent - The id of author of publishedContent
+   */
+  static async deleteManyContent(publishedContent: Types.ObjectId | string): Promise<void> {
+    await LikeModel.deleteMany({publishedContent});
+  }
 }
 
 export default LikeCollection;

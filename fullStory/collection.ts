@@ -18,7 +18,7 @@ class FullStoryCollection {
    * @return {Promise<HydratedDocument<FullStory>>} - The newly created Full Story
    */
   static async addOne(publishedContent: Types.ObjectId | string, fullStoryContent: string, authorId: Types.ObjectId | string): Promise<HydratedDocument<FullStory>> {
-    const display = false; //Initialize display to false
+    const display = false; // Initialize display to false
     const fullStory = new FullStoryModel({
       authorId,
       publishedContent,
@@ -81,6 +81,24 @@ class FullStoryCollection {
     fullStory.display = !fullStory.display;
     await fullStory.save();
     return (await fullStory.populate('publishedContent')).populate('authorId');
+  }
+
+  /**
+   * Delete all the Full Stories by the given author
+   *
+   * @param {string} authorId - The id of author of Full Story
+   */
+  static async deleteMany(authorId: Types.ObjectId | string): Promise<void> {
+    await FullStoryModel.deleteMany({authorId});
+  }
+
+  /**
+   * Delete all the Full Stories by the given publishedContent
+   *
+   * @param {string} publishedContent - The id of Full Story of publishedContent
+   */
+  static async deleteManyContent(publishedContent: Types.ObjectId | string): Promise<void> {
+    await FullStoryModel.deleteMany({publishedContent});
   }
 }
 

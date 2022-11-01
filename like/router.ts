@@ -8,6 +8,7 @@ import * as freetValidator from '../freet/middleware';
 import * as freetTypeValidator from '../freetType/middleware';
 import * as likeValidator from '../like/middleware';
 import * as util from './util';
+import LikeModel from './model';
 
 const router = express.Router();
 
@@ -66,7 +67,7 @@ router.get(
       next();
       return;
     }
-
+    
     const allLikes = await LikeCollection.findAll();
     const response = allLikes.map(util.constructLikeResponse);
     res.status(200).json(response);

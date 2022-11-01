@@ -7,6 +7,8 @@ import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as freetTypeValidator from '../freetType/middleware';
 import * as util from './util';
+import FreetTypeModel from './model';
+import FullStoryModel from '../fullStory/model';
 
 const router = express.Router();
 
@@ -34,7 +36,7 @@ router.get(
       next();
       return;
     }
-
+    
     const allFreetTypes = await FreetTypeCollection.findAll();
     const response = allFreetTypes.map(util.constructFreetTypeResponse);
     res.status(200).json(response);
