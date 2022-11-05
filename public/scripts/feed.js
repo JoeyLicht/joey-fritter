@@ -7,7 +7,7 @@ function initializeFeed(fields) {
 }
 
 function updateFeed(fields) {
-  fetch('/api/feeds/', {method: 'PUT', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+  fetch('/api/feeds/', {method: 'PATCH', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
     .then(showResponse)
     .catch(showResponse);
 }

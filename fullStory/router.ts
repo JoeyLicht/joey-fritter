@@ -8,6 +8,7 @@ import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as fullStoryValidator from '../fullStory/middleware';
 import * as util from './util';
+import FullStoryModel from './model';
 
 const router = express.Router();
 
@@ -111,21 +112,21 @@ router.delete(
 /**
  * Toggle a full story
  *
- * @name PUT /api/fullStories/:id
+ * @name PATCH /api/fullStories/:id
  *
  * @return {FullStoryResponse} - the updated full story
- * @throws {403} - If the user is not logged in or user is not the author of the Full Story
+ * @throws {403} - If the user is not logged in
  * @throws {404} - If fullStoryId is not valid
  */
-router.put(
+router.patch(
   '/:fullStoryId?',
   [
     userValidator.isUserLoggedIn,
-    fullStoryValidator.isFullStoryDeletable,
-    fullStoryValidator.isValidFullStoryModifier
+    fullStoryValidator.isFullStoryDeletable
   ],
   async (req: Request, res: Response) => {
-    const fullStory = await FullStoryCollection.updateOne(req.params.fullStoryId);
+    const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    const fullStory = await FullStoryCollection.updateOne(req.params.fullStoryId, userId);
     res.status(200).json({
       message: 'Your full story was toggled successfully.',
       fullStory: util.constructFullStoryResponse(fullStory)

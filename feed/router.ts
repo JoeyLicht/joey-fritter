@@ -51,7 +51,7 @@ router.post(
 /**
  * Update Feed
  *
- * @name PUT /api/feeds
+ * @name PATCH /api/feeds
  *
  * @param {string} politics - Politics preference
  * @param {string} comedy - Comedy preference
@@ -64,7 +64,7 @@ router.post(
  * @throws {400} - If the user inputs don't match 'Yes' or 'No'
  * @throws {409} - If the user has not already created a feed
  */
-router.put(
+router.patch(
   '/',
   [
     userValidator.isUserLoggedIn,

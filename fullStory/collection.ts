@@ -18,7 +18,7 @@ class FullStoryCollection {
    * @return {Promise<HydratedDocument<FullStory>>} - The newly created Full Story
    */
   static async addOne(publishedContent: Types.ObjectId | string, fullStoryContent: string, authorId: Types.ObjectId | string): Promise<HydratedDocument<FullStory>> {
-    const display = false; // Initialize display to false
+    const display: string[] = []; // Initialize display to empty (no users will initially see the full story)
     const fullStory = new FullStoryModel({
       authorId,
       publishedContent,
@@ -74,11 +74,19 @@ class FullStoryCollection {
    * Toggle the full story
    *
    * @param {string} fullStoryId - The id of the full story to be updated
+   * @param {string} userId - The id of uer of that wants to toggle full story
    * @return {Promise<HydratedDocument<FullStory>>} - The newly updated full story
    */
-  static async updateOne(fullStoryId: Types.ObjectId | string): Promise<HydratedDocument<FullStory>> {
+  static async updateOne(fullStoryId: Types.ObjectId | string, userId: string): Promise<HydratedDocument<FullStory>> {
     const fullStory = await FullStoryModel.findOne({_id: fullStoryId});
-    fullStory.display = !fullStory.display;
+    const temp: string[] = fullStory.display;
+    if (temp.includes(userId)) {
+      temp.filter(id => id !== userId);
+    } else {
+      temp.push(userId);
+    }
+    
+    fullStory.display = temp;
     await fullStory.save();
     return (await fullStory.populate('publishedContent')).populate('authorId');
   }
