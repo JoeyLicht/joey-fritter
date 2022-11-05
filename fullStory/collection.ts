@@ -79,9 +79,9 @@ class FullStoryCollection {
    */
   static async updateOne(fullStoryId: Types.ObjectId | string, userId: string): Promise<HydratedDocument<FullStory>> {
     const fullStory = await FullStoryModel.findOne({_id: fullStoryId});
-    const temp: string[] = fullStory.display;
+    let temp: string[] = fullStory.display;
     if (temp.includes(userId)) {
-      temp.filter(id => id !== userId);
+      temp = temp.filter(id => id !== userId);
     } else {
       temp.push(userId);
     }
