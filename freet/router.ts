@@ -11,6 +11,10 @@ import * as util from './util';
 import { constructLikeResponse } from 'like/util';
 import UserModel from '../user/model';
 import FreetModel from '../freet/model';
+import FeedModel from '../feed/model';
+import FullStoryModel from '../fullStory/model';
+import FreetTypeModel from '../freetType/model';
+import LikeModel from '../like/model';
 
 const router = express.Router();
 
@@ -40,6 +44,12 @@ router.get(
       next();
       return;
     }
+    // await LikeModel.deleteMany({});
+    // await FeedModel.deleteMany({});
+    // await FullStoryModel.deleteMany({});
+    // await FreetTypeModel.deleteMany({});
+    // await FreetModel.deleteMany({});
+    // await UserModel.deleteMany({});
 
     const allFreets = await FreetCollection.findAll();
     const response = allFreets.map(util.constructFreetResponse);

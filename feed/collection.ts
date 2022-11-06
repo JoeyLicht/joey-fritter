@@ -4,6 +4,9 @@ import FeedModel from './model';
 import type {FreetType} from '../freetType/model';
 import FreetTypeModel from '../freetType/model';
 import FreetTypeCollection from '../freetType/collection';
+import type {Freet} from '../freet/model';
+import FreetModel from '../freet/model';
+import * as freetTypeUtil from '../freetType/util';
 
 /**
  * This file contains a class with functionality to create Feeds
@@ -57,9 +60,9 @@ class FeedCollection {
       lisPreferences.push('Sad');
     }
 
-    // filter by user preferences and make sure to not include any freet types created by user
+    // filter by user preferences
     const curatedFeed = await FreetTypeModel
-      .find({freetTypeLabel: {$in: lisPreferences}, authorId: {$ne: userIdNum}})
+      .find({freetTypeLabel: {$in: lisPreferences}})
       .sort({dateFreetType: -1})
       .populate('publishedContent').populate('authorId');
 
