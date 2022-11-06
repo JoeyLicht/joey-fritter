@@ -12,6 +12,7 @@ import * as freetTypeUtil from '../freetType/util';
 import * as freetUtil from '../freet/util';
 import FeedModel from './model';
 import FreetTypeModel from '../freetType/model';
+import FreetModel from '../freet/model';
 
 const router = express.Router();
 
@@ -103,9 +104,17 @@ router.get(
     const curated = await FeedCollection.curateFeed(userId);
     const response = curated
                             .map(freetTypeUtil.constructFreetTypeResponse)
-                            .map(x => x.publishedContent);
+                            .map(x => x.publishedContent._id.toString());
                             // .map(freetUtil.constructFreetResponse);
-    res.status(200).json(response);
+    console.log(response);
+
+    const curatedFreet = await FreetModel
+          .find({_id: {$in: response}})
+          .sort({dateFreetType: -1})
+          .populate('authorId');
+
+    const newResponse = curatedFreet.map(freetUtil.constructFreetResponse);
+    res.status(200).json(newResponse);
   }
 );
 
