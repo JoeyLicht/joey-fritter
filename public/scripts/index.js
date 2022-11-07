@@ -53,7 +53,7 @@ const formsAndHandlers = {
   'delete-like': deleteLike,
   'view-likes-by-freet': viewLikesByFreet,
   'initialize-feed': initializeFeed,
-  // 'view-feed-preferences': viewFeedPreferences,
+  'view-feed-preferences': viewFeedPreferences,
   'view-feed': viewFeed,
   'update-feed': updateFeed
   

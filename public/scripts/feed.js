@@ -18,8 +18,8 @@ function viewFeed(fields) {
     .catch(showResponse);
 }
 
-// function viewFeedPreferences(fields) {
-//   fetch('/api/feeds')
-//     .then(showResponse)
-//     .catch(showResponse);
-// }
+function viewFeedPreferences(fields) {
+  fetch('/api/feeds/preferences')
+    .then(showResponse)
+    .catch(showResponse);
+}

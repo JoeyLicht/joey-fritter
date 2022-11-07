@@ -118,22 +118,28 @@ router.get(
   }
 );
 
-// /**
-//  * Get all the feeds
-//  *
-//  * @name GET /api/feeds
-//  *
-//  * @return {FeedResponse[]} - A list of all the feeds
-//  */
-// router.get(
-//   '/',
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     // await FreetTypeModel.deleteMany({});
-//     const allFeeds = await FeedCollection.findAll();
-//     const response = allFeeds.map(util.constructFeedResponse);
-//     res.status(200).json(response);
-//   }
-// );
+/**
+ * Get all the feeds
+ *
+ * @name GET /api/feeds/preferences
+ *
+ * @return {FeedResponse[]} - A list of user's feed preferences
+ * @throws {403} - If the user is not logged in
+ * @throws {409} - If the user has not already created a feed
+ */
+router.get(
+  '/preferences',
+  [
+    userValidator.isUserLoggedIn,
+    feedValidator.isNotFirstFeed
+  ],
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    const userFeed = await FeedCollection.findOneByUserId(userId);
+    const response = util.constructFeedResponse(userFeed);
+    res.status(200).json(response);
+  }
+);
 
 export {router as feedRouter};
 
